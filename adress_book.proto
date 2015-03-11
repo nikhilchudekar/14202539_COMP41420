@@ -1,0 +1,43 @@
+syntax = "proto2";
+
+
+// The AddressBook service definition.
+service AddressBook {
+  rpc AddContact (Person) returns (Status) {}
+  rpc SearchContact (TextMessage) returns (Person) {}
+  rpc DisplayAll (TextMessage) returns (RemoteAddressBook) {}
+}
+
+// The request message containing the user's name.
+message Person {
+  required string name = 1;
+  required int32 id = 2;
+  optional string email = 3;
+
+  enum PhoneType {
+    MOBILE = 0;
+    HOME = 1;
+    WORK = 2;
+  }
+
+  message PhoneNumber {
+    required string number = 1;
+    optional PhoneType type = 2 [default = HOME];
+  }
+
+  optional PhoneNumber phone = 4;
+}
+
+// contains contact results
+message RemoteAddressBook {
+    repeated Person contacts = 1;
+}
+
+// The message showing whether the operation succeeded or failed.
+message Status {
+    optional int32 status_val = 1;
+}
+
+message TextMessage {
+    optional string text = 1;
+}
