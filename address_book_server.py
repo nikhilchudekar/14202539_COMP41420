@@ -12,7 +12,13 @@ class AddressBook(adress_book_pb2.EarlyAdopterAddressBookServicer):
 
     def AddContact(self, request, context):
         # print 'Before adding into address book'
-        self.address_book.contacts.extend([request])
+        #self.address_book.contacts.extend([request])
+        person = self.address_book.contacts.add()
+        person.name = request.name
+        person.id = request.id
+        person.email = request.email
+        person.phone.number = request.phone.number
+        person.phone.type = request.phone.type
         return adress_book_pb2.Status(status_val=1)
 
     def SearchContact(self, request, context):
